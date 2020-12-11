@@ -1,0 +1,382 @@
+Problem:    TB_vizsgafeladat
+Rows:       83
+Columns:    96 (24 integer, 24 binary)
+Non-zeros:  264
+Status:     INTEGER OPTIMAL
+Objective:  TeljesKoltseg = 2625 (MINimum)
+
+   No.   Row name        Activity     Lower bound   Upper bound
+------ ------------    ------------- ------------- -------------
+     1 ElerhetoMennyiseg[A1]
+                                 100                         100 
+     2 ElerhetoMennyiseg[A2]
+                                 250                         250 
+     3 ElerhetoMennyiseg[A3]
+                                 190                         190 
+     4 ElerhetoMennyiseg[A4]
+                                 210                         210 
+     5 SzuksegesMennyiseg[S1]
+                                 120           120               
+     6 SzuksegesMennyiseg[S2]
+                                 140           140               
+     7 SzuksegesMennyiseg[S3]
+                                 170           170               
+     8 SzuksegesMennyiseg[S4]
+                                  90            90               
+     9 SzuksegesMennyiseg[S5]
+                                 110           110               
+    10 SzuksegesMennyiseg[S6]
+                                 120           120               
+    11 SzallitottMennyiseg[A1,S1]
+                                   0            -0             = 
+    12 SzallitottMennyiseg[A1,S2]
+                                   0            -0             = 
+    13 SzallitottMennyiseg[A1,S3]
+                                   0            -0             = 
+    14 SzallitottMennyiseg[A1,S4]
+                                   0            -0             = 
+    15 SzallitottMennyiseg[A1,S5]
+                                   0            -0             = 
+    16 SzallitottMennyiseg[A1,S6]
+                                   0            -0             = 
+    17 SzallitottMennyiseg[A2,S1]
+                                   0            -0             = 
+    18 SzallitottMennyiseg[A2,S2]
+                                   0            -0             = 
+    19 SzallitottMennyiseg[A2,S3]
+                                   0            -0             = 
+    20 SzallitottMennyiseg[A2,S4]
+                                   0            -0             = 
+    21 SzallitottMennyiseg[A2,S5]
+                                   0            -0             = 
+    22 SzallitottMennyiseg[A2,S6]
+                                   0            -0             = 
+    23 SzallitottMennyiseg[A3,S1]
+                                   0            -0             = 
+    24 SzallitottMennyiseg[A3,S2]
+                                   0            -0             = 
+    25 SzallitottMennyiseg[A3,S3]
+                                   0            -0             = 
+    26 SzallitottMennyiseg[A3,S4]
+                                   0            -0             = 
+    27 SzallitottMennyiseg[A3,S5]
+                                   0            -0             = 
+    28 SzallitottMennyiseg[A3,S6]
+                                   0            -0             = 
+    29 SzallitottMennyiseg[A4,S1]
+                                   0            -0             = 
+    30 SzallitottMennyiseg[A4,S2]
+                                   0            -0             = 
+    31 SzallitottMennyiseg[A4,S3]
+                                   0            -0             = 
+    32 SzallitottMennyiseg[A4,S4]
+                                   0            -0             = 
+    33 SzallitottMennyiseg[A4,S5]
+                                   0            -0             = 
+    34 SzallitottMennyiseg[A4,S6]
+                                   0            -0             = 
+    35 KuszobAlattErtek[A1,S1]
+                                   0                          -0 
+    36 KuszobAlattErtek[A1,S2]
+                                   0                          -0 
+    37 KuszobAlattErtek[A1,S3]
+                                   0                          -0 
+    38 KuszobAlattErtek[A1,S4]
+                                   0                          -0 
+    39 KuszobAlattErtek[A1,S5]
+                                   0                          -0 
+    40 KuszobAlattErtek[A1,S6]
+                                   0                          -0 
+    41 KuszobAlattErtek[A2,S1]
+                                -740                          -0 
+    42 KuszobAlattErtek[A2,S2]
+                                -710                          -0 
+    43 KuszobAlattErtek[A2,S3]
+                                   0                          -0 
+    44 KuszobAlattErtek[A2,S4]
+                                   0                          -0 
+    45 KuszobAlattErtek[A2,S5]
+                                   0                          -0 
+    46 KuszobAlattErtek[A2,S6]
+                                   0                          -0 
+    47 KuszobAlattErtek[A3,S1]
+                                   0                          -0 
+    48 KuszobAlattErtek[A3,S2]
+                                   0                          -0 
+    49 KuszobAlattErtek[A3,S3]
+                                -680                          -0 
+    50 KuszobAlattErtek[A3,S4]
+                                   0                          -0 
+    51 KuszobAlattErtek[A3,S5]
+                                   0                          -0 
+    52 KuszobAlattErtek[A3,S6]
+                                   0                          -0 
+    53 KuszobAlattErtek[A4,S1]
+                                   0                          -0 
+    54 KuszobAlattErtek[A4,S2]
+                                   0                          -0 
+    55 KuszobAlattErtek[A4,S3]
+                                   0                          -0 
+    56 KuszobAlattErtek[A4,S4]
+                                   0                          -0 
+    57 KuszobAlattErtek[A4,S5]
+                                   0                          -0 
+    58 KuszobAlattErtek[A4,S6]
+                                -730                          -0 
+    59 KuszobFelettErtek[A1,S1]
+                                  10          -650               
+    60 KuszobFelettErtek[A1,S2]
+                                   0          -650               
+    61 KuszobFelettErtek[A1,S3]
+                                   0          -650               
+    62 KuszobFelettErtek[A1,S4]
+                                   0          -650               
+    63 KuszobFelettErtek[A1,S5]
+                                  90          -650               
+    64 KuszobFelettErtek[A1,S6]
+                                   0          -650               
+    65 KuszobFelettErtek[A2,S1]
+                                -650          -650               
+    66 KuszobFelettErtek[A2,S2]
+                                -650          -650               
+    67 KuszobFelettErtek[A2,S3]
+                                   0          -650               
+    68 KuszobFelettErtek[A2,S4]
+                                   0          -650               
+    69 KuszobFelettErtek[A2,S5]
+                                   0          -650               
+    70 KuszobFelettErtek[A2,S6]
+                                   0          -650               
+    71 KuszobFelettErtek[A3,S1]
+                                   0          -650               
+    72 KuszobFelettErtek[A3,S2]
+                                   0          -650               
+    73 KuszobFelettErtek[A3,S3]
+                                -650          -650               
+    74 KuszobFelettErtek[A3,S4]
+                                   0          -650               
+    75 KuszobFelettErtek[A3,S5]
+                                  20          -650               
+    76 KuszobFelettErtek[A3,S6]
+                                   0          -650               
+    77 KuszobFelettErtek[A4,S1]
+                                   0          -650               
+    78 KuszobFelettErtek[A4,S2]
+                                   0          -650               
+    79 KuszobFelettErtek[A4,S3]
+                                   0          -650               
+    80 KuszobFelettErtek[A4,S4]
+                                  90          -650               
+    81 KuszobFelettErtek[A4,S5]
+                                   0          -650               
+    82 KuszobFelettErtek[A4,S6]
+                                -650          -650               
+    83 TeljesKoltseg
+                                2625                             
+
+   No. Column name       Activity     Lower bound   Upper bound
+------ ------------    ------------- ------------- -------------
+     1 Szallit[A1,S1]
+                                  10             0               
+     2 Szallit[A1,S2]
+                                   0             0               
+     3 Szallit[A1,S3]
+                                   0             0               
+     4 Szallit[A1,S4]
+                                   0             0               
+     5 Szallit[A1,S5]
+                                  90             0               
+     6 Szallit[A1,S6]
+                                   0             0               
+     7 Szallit[A2,S1]
+                                 110             0               
+     8 Szallit[A2,S2]
+                                 140             0               
+     9 Szallit[A2,S3]
+                                   0             0               
+    10 Szallit[A2,S4]
+                                   0             0               
+    11 Szallit[A2,S5]
+                                   0             0               
+    12 Szallit[A2,S6]
+                                   0             0               
+    13 Szallit[A3,S1]
+                                   0             0               
+    14 Szallit[A3,S2]
+                                   0             0               
+    15 Szallit[A3,S3]
+                                 170             0               
+    16 Szallit[A3,S4]
+                                   0             0               
+    17 Szallit[A3,S5]
+                                  20             0               
+    18 Szallit[A3,S6]
+                                   0             0               
+    19 Szallit[A4,S1]
+                                   0             0               
+    20 Szallit[A4,S2]
+                                   0             0               
+    21 Szallit[A4,S3]
+                                   0             0               
+    22 Szallit[A4,S4]
+                                  90             0               
+    23 Szallit[A4,S5]
+                                   0             0               
+    24 Szallit[A4,S6]
+                                 120             0               
+    25 AlapMennyiseg[A1,S1]
+                                  10             0           100 
+    26 AlapMennyiseg[A1,S2]
+                                   0             0           100 
+    27 AlapMennyiseg[A1,S3]
+                                   0             0           100 
+    28 AlapMennyiseg[A1,S4]
+                                   0             0           100 
+    29 AlapMennyiseg[A1,S5]
+                                  90             0           100 
+    30 AlapMennyiseg[A1,S6]
+                                   0             0           100 
+    31 AlapMennyiseg[A2,S1]
+                                 100             0           100 
+    32 AlapMennyiseg[A2,S2]
+                                 100             0           100 
+    33 AlapMennyiseg[A2,S3]
+                                   0             0           100 
+    34 AlapMennyiseg[A2,S4]
+                                   0             0           100 
+    35 AlapMennyiseg[A2,S5]
+                                   0             0           100 
+    36 AlapMennyiseg[A2,S6]
+                                   0             0           100 
+    37 AlapMennyiseg[A3,S1]
+                                   0             0           100 
+    38 AlapMennyiseg[A3,S2]
+                                   0             0           100 
+    39 AlapMennyiseg[A3,S3]
+                                 100             0           100 
+    40 AlapMennyiseg[A3,S4]
+                                   0             0           100 
+    41 AlapMennyiseg[A3,S5]
+                                  20             0           100 
+    42 AlapMennyiseg[A3,S6]
+                                   0             0           100 
+    43 AlapMennyiseg[A4,S1]
+                                   0             0           100 
+    44 AlapMennyiseg[A4,S2]
+                                   0             0           100 
+    45 AlapMennyiseg[A4,S3]
+                                   0             0           100 
+    46 AlapMennyiseg[A4,S4]
+                                  90             0           100 
+    47 AlapMennyiseg[A4,S5]
+                                   0             0           100 
+    48 AlapMennyiseg[A4,S6]
+                                 100             0           100 
+    49 TobbletMennyiseg[A1,S1]
+                                   0             0               
+    50 TobbletMennyiseg[A1,S2]
+                                   0             0               
+    51 TobbletMennyiseg[A1,S3]
+                                   0             0               
+    52 TobbletMennyiseg[A1,S4]
+                                   0             0               
+    53 TobbletMennyiseg[A1,S5]
+                                   0             0               
+    54 TobbletMennyiseg[A1,S6]
+                                   0             0               
+    55 TobbletMennyiseg[A2,S1]
+                                  10             0               
+    56 TobbletMennyiseg[A2,S2]
+                                  40             0               
+    57 TobbletMennyiseg[A2,S3]
+                                   0             0               
+    58 TobbletMennyiseg[A2,S4]
+                                   0             0               
+    59 TobbletMennyiseg[A2,S5]
+                                   0             0               
+    60 TobbletMennyiseg[A2,S6]
+                                   0             0               
+    61 TobbletMennyiseg[A3,S1]
+                                   0             0               
+    62 TobbletMennyiseg[A3,S2]
+                                   0             0               
+    63 TobbletMennyiseg[A3,S3]
+                                  70             0               
+    64 TobbletMennyiseg[A3,S4]
+                                   0             0               
+    65 TobbletMennyiseg[A3,S5]
+                                   0             0               
+    66 TobbletMennyiseg[A3,S6]
+                                   0             0               
+    67 TobbletMennyiseg[A4,S1]
+                                   0             0               
+    68 TobbletMennyiseg[A4,S2]
+                                   0             0               
+    69 TobbletMennyiseg[A4,S3]
+                                   0             0               
+    70 TobbletMennyiseg[A4,S4]
+                                   0             0               
+    71 TobbletMennyiseg[A4,S5]
+                                   0             0               
+    72 TobbletMennyiseg[A4,S6]
+                                  20             0               
+    73 KuszobFelett[A1,S1]
+                    *              0             0             1 
+    74 KuszobFelett[A1,S2]
+                    *              0             0             1 
+    75 KuszobFelett[A1,S3]
+                    *              0             0             1 
+    76 KuszobFelett[A1,S4]
+                    *              0             0             1 
+    77 KuszobFelett[A1,S5]
+                    *              0             0             1 
+    78 KuszobFelett[A1,S6]
+                    *              0             0             1 
+    79 KuszobFelett[A2,S1]
+                    *              1             0             1 
+    80 KuszobFelett[A2,S2]
+                    *              1             0             1 
+    81 KuszobFelett[A2,S3]
+                    *              0             0             1 
+    82 KuszobFelett[A2,S4]
+                    *              0             0             1 
+    83 KuszobFelett[A2,S5]
+                    *              0             0             1 
+    84 KuszobFelett[A2,S6]
+                    *              0             0             1 
+    85 KuszobFelett[A3,S1]
+                    *              0             0             1 
+    86 KuszobFelett[A3,S2]
+                    *              0             0             1 
+    87 KuszobFelett[A3,S3]
+                    *              1             0             1 
+    88 KuszobFelett[A3,S4]
+                    *              0             0             1 
+    89 KuszobFelett[A3,S5]
+                    *              0             0             1 
+    90 KuszobFelett[A3,S6]
+                    *              0             0             1 
+    91 KuszobFelett[A4,S1]
+                    *              0             0             1 
+    92 KuszobFelett[A4,S2]
+                    *              0             0             1 
+    93 KuszobFelett[A4,S3]
+                    *              0             0             1 
+    94 KuszobFelett[A4,S4]
+                    *              0             0             1 
+    95 KuszobFelett[A4,S5]
+                    *              0             0             1 
+    96 KuszobFelett[A4,S6]
+                    *              1             0             1 
+
+Integer feasibility conditions:
+
+KKT.PE: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+KKT.PB: max.abs.err = 1.42e-14 on row 18
+        max.rel.err = 1.42e-14 on row 18
+        High quality
+
+End of output
