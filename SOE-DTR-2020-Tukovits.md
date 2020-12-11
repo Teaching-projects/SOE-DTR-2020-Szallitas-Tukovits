@@ -122,7 +122,7 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
     #Kiíratás
     solve;
     
-    printf "Optimal cost: %g.\n", TeljesKoltseg;
+    printf "Költség: %g.\n", TeljesKoltseg;
     for {(a,s) in KeresletKinalat: Szallit[a,s] > 0}
     {
     printf " %s -ből %s -be, elviszunk %g=%g+%g " &
