@@ -1,71 +1,71 @@
 #Halmazok
-#Alapanyag kínálat
+#Alapanyag kÃ­nÃ¡lat
 set Alapanyag;
-#Alapanyag szükséglet
+#Alapanyag szÃ¼ksÃ©glet
 set Szukseglet;
-#Kínálat és szülségletek kapcsolata
+#KÃ­nÃ¡lat Ã©s szÃ¼lsÃ©gletek kapcsolata
 set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);
 
-#Paraméterek
-#Elérhetõ alapanyag mennyisége 
+#ParamÃ©terek
+#ElÃ©rhetÅ‘ alapanyag mennyisÃ©ge 
 param Elerheto{a in Alapanyag}, >=0;
-#Minimum alapanyag mennyisége
+#Minimum alapanyag mennyisÃ©ge
 param Szukseges{s in Szukseglet}, >=0;
-#Ár
+#Ãr
 param Koltseg{(a,s) in KeresletKinalat}, >=0;
-#Küszöbindex
+#KÃ¼szÃ¶bindex
 param Kuszob>=0;
-#Árcsökkentés mértéke
+#ÃrcsÃ¶kkentÃ©s mÃ©rtÃ©ke
 param Kedvezmeny, >0, <=100;
-#Csökkentett ár
+#CsÃ¶kkentett Ã¡r
 param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));
-# Big-M paraméter a korlátozáshoz
+# Big-M paramÃ©ter a korlÃ¡tozÃ¡shoz
 param M := sum {a in Alapanyag} Elerheto[a];
 
-#Változók
-#Szállított mennyiség
+#VÃ¡ltozÃ³k
+#SzÃ¡llÃ­tott mennyisÃ©g
 var Szallit{(a,s) in KeresletKinalat}, >=0;
-#Küszöbérték alatti szállítás
+#KÃ¼szÃ¶bÃ©rtÃ©k alatti szÃ¡llÃ­tÃ¡s
 var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;
-#Köszübérték fölötti szállítás
+#KÃ¶szÃ¼bÃ©rtÃ©k fÃ¶lÃ¶tti szÃ¡llÃ­tÃ¡s
 var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;
-#Szállíthatunk-e csökkentett áron
+#SzÃ¡llÃ­thatunk-e csÃ¶kkentett Ã¡ron
 var KuszobFelett{(a,s) in KeresletKinalat}, binary;
 
 
-#Korlátozások
-#Ne szállítsunk többet mint ami elérhetõ
+#KorlÃ¡tozÃ¡sok
+#Ne szÃ¡llÃ­tsunk tÃ¶bbet mint ami elÃ©rhetÅ‘
 s.t. ElerhetoMennyiseg {a in Alapanyag}:
 sum {s in Szukseglet} Szallit[a,s] <= Elerheto[a];
 
-#Legalább annyit szállítsunk, mint ami kell
+#LegalÃ¡bb annyit szÃ¡llÃ­tsunk, mint ami kell
 s.t. SzuksegesMennyiseg {s in Szukseglet}:
 sum {a in Alapanyag} Szallit[a,s] >= Szukseges[s];
 
-#Ténylegesen szállított mennyiség
+#TÃ©nylegesen szÃ¡llÃ­tott mennyisÃ©g
 s.t. SzallitottMennyiseg {(a,s) in KeresletKinalat}:
 Szallit[a,s] = AlapMennyiseg[a,s] + TobbletMennyiseg[a,s];
 
-#Ha küszöb alatt vagyunk, többletmennyiség = 0
+#Ha kÃ¼szÃ¶b alatt vagyunk, tÃ¶bbletmennyisÃ©g = 0
 s.t. KuszobAlattErtek {(a,s) in KeresletKinalat}:
 TobbletMennyiseg[a,s] <= M * KuszobFelett[a,s];
 
-#Ha küszöb felett vagyunk, akkor alapmennyiség = küszöb
+#Ha kÃ¼szÃ¶b felett vagyunk, akkor alapmennyisÃ©g = kÃ¼szÃ¶b
 s.t. KuszobFelettErtek {(a,s) in KeresletKinalat}:
 AlapMennyiseg[a,s] >= Kuszob- M * (1 - KuszobFelett[a,s]);
 
-#Célfüggvény
+#CÃ©lfÃ¼ggvÃ©ny
 minimize TeljesKoltseg: sum {(a,s) in KeresletKinalat}
 (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
 
-#Kiíratás
+#KiÃ­ratÃ¡s
 solve;
 
-printf "Optimal cost: %g.\n", TeljesKoltseg;
+printf "KÃ¶ltsÃ©g: %g.\n", TeljesKoltseg;
 for {(a,s) in KeresletKinalat: Szallit[a,s] > 0}
 {
-printf " %s -bõl %s -be, elviszunk %g=%g+%g " &
-"mennyiséget %g áron.\n",
+printf " %s -bÅ‘l %s -be, elviszunk %g=%g+%g " &
+"mennyisÃ©get %g Ã¡ron.\n",
 a, s, Szallit[a,s], AlapMennyiseg[a,s], TobbletMennyiseg[a,s],
 (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
 }
