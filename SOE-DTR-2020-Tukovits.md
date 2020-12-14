@@ -3,9 +3,9 @@
 
 ## Bevezetés
 
-A tárgy beadandóját egy hozzám és szakdolgozatom is köthető logisztikai feladattal oldottam meg. Adottak a gyártóhelyeink, ahol alapanyagokat gyártunk. Adottak feldolgozóhelyeink, amelyek várják a nyersanyagot.
+A tárgy beadandóját egy hozzám és szakdolgozatom is köthető logisztikai feladattal oldottam meg. Adottak a gyártóhelyeink, ahol egyfajta alapanyagot gyártunk. Adottak feldolgozóhelyeink, amelyek várják a nyersanyagot. A nyersanyagunkat kell elszállítanunk az egyes gyártóhelyekről a feldoldozóhelyekre.
 
-Feladatunk a legolcsóbb megoldás megtalálása. Ha egy megadott mennyiség felett szállítunk, akkor olcsóbban tudjuk kivitelezni a szállítást.
+Feladatunk a legolcsóbb szállítás összeállítása. Ha egy megadott mennyiség felett szállítunk, akkor olcsóbban tudjuk kivitelezni a szállítást.
 
 Készítettem egy kiíratást is, hogy lássuk, mennyit szállítottunk a küszöbérték felett és mennyibe került az adott fuvar.
 
@@ -29,56 +29,53 @@ Készítettem egy kiíratást is, hogy lássuk, mennyit szállítottunk a küsz�
 |S6|120|
 
 
-
-
-
 ## Halmazok
 
 A modellünk 3 halmazból áll.
 
     #Halmazok
-    #Alapanyag kínálat
-    set Alapanyag;
-    #Alapanyag szükséglet
-    set Szukseglet;
-    #Kínálat és szülségletek kapcsolata
-    set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);
+    
+    set Alapanyag;    #Alapanyag kínálat
+    
+    set Szukseglet;    #Alapanyag szükséglet
+    
+    set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);    #Kínálat és szülségletek kapcsolata
 
-Ezekben tároljuk az elérhető és elvárt mennyiségeket, továbbá egy kétdimenziós halmazt, mivel mindegyik Alapanyagot össze kell kapcsolnunk egy Szükséglettel.
+Ezekben tároljuk a legyártott és elvárt mennyiségeket, továbbá egy kétdimenziós halmazt, mivel mindegyik gyártóhelyet össze kell kapcsolnunk egy felhasználóhellyel.
 
 ## Paraméterek
 
-Több paraméterre lesz szükségem. Az elérhető Alapanyagok mennyisége, a szükséges alapanyagok mennyisége, az ár, egy küszöbszám, az árcsökkentés mértéke, a csökkentett ár, és egy big-M paraméter.
+Több paraméterre lesz szükségem. Az elérhető alapanyagok mennyisége, a szükséges alapanyagok mennyisége, az ár, egy küszöbszám, az árcsökkentés mértéke, a csökkentett ár, és egy big-M paraméter.
 
     #Paraméterek
-    #Elérhető alapanyag mennyisége
-    param Elerheto{a in Alapanyag}, >=0;
-    #Minimum alapanyag mennyisége
-    param Szukseges{s in Szukseglet}, >=0;
-    #Ár
-    param Koltseg{(a,s) in KeresletKinalat}, >=0;
-    #Küszöbindex
-    param Kuszob>=0;
-    #Árcsökkentés mértéke
-    param Kedvezmeny, >0, <=100;
-    #Csökkentett ár
-    param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));
-    #Big-M paraméter a korlátozáshoz
-    param M := sum {a in Alapanyag} Elerheto[a];
+    
+    param Elerheto{a in Alapanyag}, >=0;    #Elérhető alapanyag mennyisége
+    
+    param Szukseges{s in Szukseglet}, >=0;    #Minimum alapanyag mennyisége
+    
+    param Koltseg{(a,s) in KeresletKinalat}, >=0;    #Ár
+   
+    param Kuszob>=0;    #Küszöbindex
+
+    param Kedvezmeny, >0, <=100;      #Árcsökkentés mértéke
+
+    param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));       #Csökkentett ár
+ 
+    param M := sum {a in Alapanyag} Elerheto[a];      #Big-M paraméter a korlátozáshoz
 
 ## Változók
 
 Változókból is többre van szükség. A szállított mennyiségre, az alapmennyiségre, a többletmennyiségre és hogy szállíthatunk a küszöbérték felett.
 
     #Változók
-    #Szállított mennyiség
-    var Szallit{(a,s) in KeresletKinalat}, >=0;
-    #Küszöbérték alatti szállítás
-    var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;
-    #Köszübérték fölötti szállítás
-    var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;
-    #Szállíthatunk-e csökkentett áron
-    var KuszobFelett{(a,s) in KeresletKinalat}, binary;
+  
+    var Szallit{(a,s) in KeresletKinalat}, >=0;  #Szállított mennyiség
+
+    var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;    #Küszöbérték alatti szállítás
+ 
+    var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;   #Köszübérték fölötti szállítás
+ 
+    var KuszobFelett{(a,s) in KeresletKinalat}, binary;   #Szállíthatunk-e csökkentett áron
 
 ## Korlátozások
 
@@ -131,12 +128,12 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
     (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
     }
 
-# Adatok
+## Adatok
 
     #Adatok
     data;
     
-    set Alapanyag:=	A1	A2	A3	A4;
+    set Alapanyag:= A1	A2	A3	A4;
     
     set Szukseglet:=	S1	S2	S3	S4	S5	S6;
     
@@ -164,122 +161,12 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
     A4	9	10	6	8	9	7
     ;
     
-    param Kuszob:= 100;
+    param Kuszob :=  100;
     
     param Kedvezmeny := 25;
 
-# Teljes kód
 
-    #Halmazok
-    #Alapanyag kínálat
-    set Alapanyag;
-    #Alapanyag szükséglet
-    set Szukseglet;
-    #Kínálat és szülségletek kapcsolata
-    set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);
-    
-    #Paraméterek
-    #Elérhető alapanyag mennyisége
-    param Elerheto{a in Alapanyag}, >=0;
-    #Minimum alapanyag mennyisége
-    param Szukseges{s in Szukseglet}, >=0;
-    #Ár
-    param Koltseg{(a,s) in KeresletKinalat}, >=0;
-    #Küszöbindex
-    param Kuszob>=0;
-    #Árcsökkentés mértéke
-    param Kedvezmeny, >0, <=100;
-    #Csökkentett ár
-    param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));
-    #Big-M paraméter a korlátozáshoz
-    param M := sum {a in Alapanyag} Elerheto[a];
-    
-    #Változók
-    #Szállított mennyiség
-    var Szallit{(a,s) in KeresletKinalat}, >=0;
-    #Küszöbérték alatti szállítás
-    var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;
-    #Köszübérték fölötti szállítás
-    var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;
-    #Szállíthatunk-e csökkentett áron
-    var KuszobFelett{(a,s) in KeresletKinalat}, binary;
-    
-    
-    #Korlátozások
-    #Ne szállítsunk többet mint ami elérhető
-    s.t. ElerhetoMennyiseg {a in Alapanyag}:
-    sum {s in Szukseglet} Szallit[a,s] <= Elerheto[a];
-    
-    #Legalább annyit szállítsunk, mint ami kell
-    s.t. SzuksegesMennyiseg {s in Szukseglet}:
-    sum {a in Alapanyag} Szallit[a,s] >= Szukseges[s];
-    
-    #Ténylegesen szállított mennyiség
-    s.t. SzallitottMennyiseg {(a,s) in KeresletKinalat}:
-    Szallit[a,s] = AlapMennyiseg[a,s] + TobbletMennyiseg[a,s];
-    
-    #Ha küszöb alatt vagyunk, többletmennyiség = 0
-    s.t. KuszobAlattErtek {(a,s) in KeresletKinalat}:
-    TobbletMennyiseg[a,s] <= M * KuszobFelett[a,s];
-    
-    #Ha küszöb felett vagyunk, akkor alapmennyiség = küszöb
-    s.t. KuszobFelettErtek {(a,s) in KeresletKinalat}:
-    AlapMennyiseg[a,s] >= Kuszob- M * (1 - KuszobFelett[a,s]);
-    
-    #Célfüggvény
-    minimize TeljesKoltseg: sum {(a,s) in KeresletKinalat}
-    (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
-    
-    #Kiíratás
-    solve;
-    
-    printf "Optimal cost: %g.\n", TeljesKoltseg;
-    for {(a,s) in KeresletKinalat: Szallit[a,s] > 0}
-    {
-    printf " %s -ből %s -be, elviszunk %g=%g+%g " &
-    "mennyiséget %g áron.\n",
-    a, s, Szallit[a,s], AlapMennyiseg[a,s], TobbletMennyiseg[a,s],
-    (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
-    }
-    
-    #Adatok
-    data;
-    
-    set Alapanyag:=	A1	A2	A3	A4;
-    
-    set Szukseglet:=	S1	S2	S3	S4	S5	S6;
-    
-    param Elerheto:=
-    A1	100
-    A2	250
-    A3	190
-    A4	210
-    ;
-    
-    param Szukseges:=
-    S1	120
-    S2	140
-    S3	170
-    S4	90
-    S5	110
-    S6 	120
-    ;
-    
-    param Koltseg:
-    	S1	S2	S3	S4	S5	S6 :=
-    A1	5	10	3	9	5	12
-    A2	1	2	6	1	2	6
-    A3	6	5	1	6	4	8
-    A4	9	10	6	8	9	7
-    ;
-    
-    param Kuszob:= 100;
-    
-    param Kedvezmeny := 25;
-    
-    end;
-
-# Futtatás után
+## Futtatás után
 
     Problem:    TB_vizsgafeladat
     Rows:       83
@@ -316,4 +203,9 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
      A3 -ből S5 -be, elviszunk 20=20+0 mennyiséget 80 áron.
      A4 -ből S4 -be, elviszunk 90=90+0 mennyiséget 720 áron.
      A4 -ből S6 -be, elviszunk 120=100+20 mennyiséget 805 áron.
-
+    
+## Érzékenység vizsgálat
+    
+    A kimenetünk nagy mértékben függ az általunk választott küszöbértéktől és a kedvezmény mértékétől.
+    Célszerű ezeket az üzleti életben úgy megválasztani, hogy még számunkra megérje, esetlegesen tovább tudjuk adni az adott feladatot alvállalkozónak.
+    Továbbá a küszöbérték függhet a távolságtól és az ügyféltől is.
