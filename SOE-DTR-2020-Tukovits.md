@@ -33,13 +33,15 @@ Készítettem egy kiíratást is, hogy lássuk, mennyit szállítottunk a küsz�
 
 A modellünk 3 halmazból áll.
 
+```ampl
     #Halmazok
-    
+   
     set Alapanyag;    #Alapanyag kínálat
     
     set Szukseglet;    #Alapanyag szükséglet
     
     set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);    #Kínálat és szülségletek kapcsolata
+```
 
 Ezekben tároljuk a legyártott és elvárt mennyiségeket, továbbá egy kétdimenziós halmazt, mivel mindegyik gyártóhelyet össze kell kapcsolnunk egy felhasználóhellyel.
 
@@ -47,8 +49,9 @@ Ezekben tároljuk a legyártott és elvárt mennyiségeket, továbbá egy kétdi
 
 Több paraméterre lesz szükségem. Az elérhető alapanyagok mennyisége, a szükséges alapanyagok mennyisége, az ár, egy küszöbszám, az árcsökkentés mértéke, a csökkentett ár, és egy big-M paraméter.
 
+```ampl 
     #Paraméterek
-    
+   
     param Elerheto{a in Alapanyag}, >=0;    #Elérhető alapanyag mennyisége
     
     param Szukseges{s in Szukseglet}, >=0;    #Minimum alapanyag mennyisége
@@ -62,13 +65,15 @@ Több paraméterre lesz szükségem. Az elérhető alapanyagok mennyisége, a sz
     param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));       #Csökkentett ár
  
     param M := sum {a in Alapanyag} Elerheto[a];      #Big-M paraméter a korlátozáshoz
+```
 
 ## Változók
 
 Változókból is többre van szükség. A szállított mennyiségre, az alapmennyiségre, a többletmennyiségre és hogy szállíthatunk a küszöbérték felett.
 
+```ampl  
     #Változók
-  
+
     var Szallit{(a,s) in KeresletKinalat}, >=0;  #Szállított mennyiség
 
     var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;    #Küszöbérték alatti szállítás
@@ -76,11 +81,13 @@ Változókból is többre van szükség. A szállított mennyiségre, az alapmen
     var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;   #Köszübérték fölötti szállítás
  
     var KuszobFelett{(a,s) in KeresletKinalat}, binary;   #Szállíthatunk-e csökkentett áron
+```
 
 ## Korlátozások
 
 Az első három korlátozásban meghatározzuk, hogy ne szállítsunk többet, mint amennyivel rendelkezünk és minimum annyit szállítsunk, mint amire szükségünk van. Továbbá a ténylegesen szállított mennyiséget határozzuk meg.
 
+```ampl  
     #Korlátozások
     #Ne szállítsunk többet mint ami elérhető
     s.t. ElerhetoMennyiseg {a in Alapanyag}:
@@ -93,9 +100,11 @@ Az első három korlátozásban meghatározzuk, hogy ne szállítsunk többet, m
     #Ténylegesen szállított mennyiség
     s.t. SzallitottMennyiseg {(a,s) in KeresletKinalat}:
     Szallit[a,s] = AlapMennyiseg[a,s] + TobbletMennyiseg[a,s];
+```
 
 A következő kettőben Big-M korlátozásokat használunk, amiket „ki-be kapcsolgatunk” attól függően, hogy a küszöb alatti vagy feletti mennyiséget kell elszállítanunk.
 
+```ampl  
     #Ha küszöb alatt vagyunk, többletmennyiség = 0
     s.t. KuszobAlattErtek {(a,s) in KeresletKinalat}:
     TobbletMennyiseg[a,s] <= M * KuszobFelett[a,s];
@@ -103,19 +112,23 @@ A következő kettőben Big-M korlátozásokat használunk, amiket „ki-be kapc
     #Ha küszöb felett vagyunk, akkor alapmennyiség = küszöb
     s.t. KuszobFelettErtek {(a,s) in KeresletKinalat}:
     AlapMennyiseg[a,s] >= Kuszob- M * (1 - KuszobFelett[a,s]);
+```
 
 ## Célfüggvény
 
 Cél a legolcsóbb megoldást megtalálni, ezért minimum számítást használunk.
 
+```ampl  
     #Célfüggvény
     minimize TeljesKoltseg: sum {(a,s) in KeresletKinalat}
     (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
+```
 
 ## Kiíratás
 
 A kiíratás emberi szem számára is olvasható kimenetet biztosít.
 
+```ampl
     #Kiíratás
     solve;
     
@@ -127,9 +140,11 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
     a, s, Szallit[a,s], AlapMennyiseg[a,s], TobbletMennyiseg[a,s],
     (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
     }
+```
 
 ## Adatok
 
+```ampl
     #Adatok
     data;
     
@@ -164,10 +179,11 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
     param Kuszob :=  100;
     
     param Kedvezmeny := 25;
-
+```
 
 ## Futtatás után
 
+```ampl
     Problem:    TB_vizsgafeladat
     Rows:       83
     Columns:    96 (24 integer, 24 binary)
@@ -203,9 +219,8 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
      A3 -ből S5 -be, elviszunk 20=20+0 mennyiséget 80 áron.
      A4 -ből S4 -be, elviszunk 90=90+0 mennyiséget 720 áron.
      A4 -ből S6 -be, elviszunk 120=100+20 mennyiséget 805 áron.
-    
+  ```
+  
 ## Érzékenység vizsgálat
-    
-    A kimenetünk nagy mértékben függ az általunk választott küszöbértéktől és a kedvezmény mértékétől.
-    Célszerű ezeket az üzleti életben úgy megválasztani, hogy még számunkra megérje, esetlegesen tovább tudjuk adni az adott feladatot alvállalkozónak.
-    Továbbá a küszöbérték függhet a távolságtól és az ügyféltől is.
+    Az érzékenységvizsgálatot PDF-ként töltöm fel. Az oszlopokon látható az adott rekordhoz tartozó küszöb érték, sárgával a kedvezmény mértéke, szürkével az optimum értéke.
+   
