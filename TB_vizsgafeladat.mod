@@ -1,39 +1,40 @@
-#Halmazok
-#Alapanyag kínálat
-set Alapanyag;
-#Alapanyag szükséglet
-set Szukseglet;
-#Kínálat és szülségletek kapcsolata
-set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);
+###Halmazok###
 
-#Paraméterek
-#Elérhető alapanyag mennyisége 
-param Elerheto{a in Alapanyag}, >=0;
-#Minimum alapanyag mennyisége
-param Szukseges{s in Szukseglet}, >=0;
-#Ár
-param Koltseg{(a,s) in KeresletKinalat}, >=0;
-#Küszöbindex
-param Kuszob>=0;
-#Árcsökkentés mértéke
-param Kedvezmeny, >0, <=100;
-#Csökkentett ár
-param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));
-# Big-M paraméter a korlátozáshoz
-param M := sum {a in Alapanyag} Elerheto[a];
+set Alapanyag;  #Alapanyag kínálat
 
-#Változók
-#Szállított mennyiség
-var Szallit{(a,s) in KeresletKinalat}, >=0;
-#Küszöbérték alatti szállítás
-var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;
-#Köszübérték fölötti szállítás
-var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;
-#Szállíthatunk-e csökkentett áron
-var KuszobFelett{(a,s) in KeresletKinalat}, binary;
+set Szukseglet;  #Alapanyag szükséglet
+
+set KeresletKinalat:= setof {a in Alapanyag, s in Szukseglet} (a,s);  #Kínálat és szülségletek kapcsolata
+
+###Paraméterek###
+
+param Elerheto{a in Alapanyag}, >=0;  #Elérhető alapanyag mennyisége 
+
+param Szukseges{s in Szukseglet}, >=0;  #Minimum alapanyag mennyisége
+
+param Koltseg{(a,s) in KeresletKinalat}, >=0;  #Ár
+
+param Kuszob>=0;  #Küszöbindex
+
+param Kedvezmeny, >0, <=100;  #Árcsökkentés mértéke
+
+param CsokkentettAr {(a,s) in KeresletKinalat} := (Koltseg[a,s] * (1 - Kedvezmeny / 100));  #Csökkentett ár
+
+param M := sum {a in Alapanyag} Elerheto[a];  # Big-M paraméter a korlátozáshoz
+
+###Változók###
+
+var Szallit{(a,s) in KeresletKinalat}, >=0;  #Szállított mennyiség
+
+var AlapMennyiseg{(a,s) in KeresletKinalat}, >=0, <=Kuszob;  #Küszöbérték alatti szállítás
+
+var TobbletMennyiseg{(a,s) in KeresletKinalat}, >=0;  #Köszübérték fölötti szállítás
+
+var KuszobFelett{(a,s) in KeresletKinalat}, binary;  #Szállíthatunk-e csökkentett áron
 
 
-#Korlátozások
+###Korlátozások###
+
 #Ne szállítsunk többet mint ami elérhető
 s.t. ElerhetoMennyiseg {a in Alapanyag}:
 sum {s in Szukseglet} Szallit[a,s] <= Elerheto[a];
@@ -54,11 +55,11 @@ TobbletMennyiseg[a,s] <= M * KuszobFelett[a,s];
 s.t. KuszobFelettErtek {(a,s) in KeresletKinalat}:
 AlapMennyiseg[a,s] >= Kuszob- M * (1 - KuszobFelett[a,s]);
 
-#Célfüggvény
+###Célfüggvény###
 minimize TeljesKoltseg: sum {(a,s) in KeresletKinalat}
 (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
 
-#Kiíratás
+###Kiíratás###
 solve;
 
 printf "Költség: %g.\n", TeljesKoltseg;
@@ -70,7 +71,7 @@ a, s, Szallit[a,s], AlapMennyiseg[a,s], TobbletMennyiseg[a,s],
 (AlapMennyiseg[a,s] * Koltseg[a,s] + TobbletMennyiseg[a,s] * CsokkentettAr [a,s]);
 }
 
-#Adatok
+###Adatok###
 data;
 
 set Alapanyag:=	A1	A2	A3	A4;
