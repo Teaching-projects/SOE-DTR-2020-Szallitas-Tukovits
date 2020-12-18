@@ -225,4 +225,7 @@ A kiíratás emberi szem számára is olvasható kimenetet biztosít.
   
 ## Érzékenység vizsgálat
     
+![diagram](https://user-images.githubusercontent.com/47560999/102634686-76baa800-4152-11eb-84aa-023d1cc05130.png)
+
+Az érzékenység vizsgálat során megvizsgáltam az optimum érték alakulását különböző küszöbértékekkel és különböző kedvezmény mértékekkel. Így létszik miképp változik az optimum értéke más-más input hatására.
    
